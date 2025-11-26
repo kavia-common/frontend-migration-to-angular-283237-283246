@@ -1,61 +1,90 @@
-# Angular
+# Angular Frontend (Migrated from React)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
+This Angular application is the migrated frontend from a previous React implementation. It uses Angular 19 standalone components, Angular Router for navigation, and HttpClient for API access. A basic layout shell (header, sidebar, content, footer) is already set up.
 
-## Development server
+## Quick Start
 
-To start a local development server on port 3000, run:
+- Install dependencies:
+  - npm ci
+- Start development server on port 3000:
+  - npm start
+- Open: http://localhost:3000
 
-```bash
-npm start
-# or
-ng serve --port 3000
-```
+## Project Layout
 
-Once the server is running, open your browser and navigate to `http://localhost:3000/`. The application will automatically reload whenever you modify any of the source files.
+- src/app/app.component.*: Root layout shell with Header, Sidebar, Footer, and router-outlet
+- src/app/app.routes.ts: Route table
+- src/app/core/services/api.service.ts: HTTP helper using environment.apiBase
+- src/app/layout/*: Layout components (header, sidebar, footer)
+- src/app/shared/components/placeholder/*: Placeholder component to stub pages during migration
+- src/environments/*: Environment configuration and NG_APP_* variable mapping
 
-## Code scaffolding
+## React → Angular: Fast Mapping
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Entry/root:
+  - React: index.tsx + <App/>
+  - Angular: src/main.ts + AppComponent (standalone)
+- Routing:
+  - React Router: <Routes>, <Route>, useNavigate
+  - Angular Router: Routes array, RouterOutlet, RouterLink, Router
+- Components:
+  - React Function Component + hooks
+  - Angular @Component (standalone), inputs via @Input(), outputs via EventEmitter
+- State:
+  - React useState/useReducer/Context
+  - Angular component state, injectable services, RxJS, or NgRx (if adopted later)
+- Side effects:
+  - React useEffect
+  - Angular lifecycle hooks (ngOnInit, ngOnDestroy) and RxJS subscriptions
+- Data fetching:
+  - React fetch/axios + context or SWR/RTK Query
+  - Angular HttpClient in services (see ApiService)
 
-```bash
-ng generate component component-name
-```
+See MIGRATION_GUIDE.md for deeper guidance and examples.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Conventions for Migration
 
-```bash
-ng generate --help
-```
+- Component naming: Keep React component names; use PascalCase in Angular file/class names.
+- Folder mapping: React feature folders map to Angular feature folders under src/app/feature-name.
+- Standalone components: Prefer standalone components; import dependencies in the component metadata.
+- Styles: Keep component-scoped CSS in the same folder as the component.
+- Routing: Add new routes to app.routes.ts and lazy-load feature routes when appropriate.
 
-## Building
+## Environment Variables (React → Angular)
 
-To build the project run:
+Angular reads NG_APP_* variables at build time through the environment files. The following variables are supported:
 
-```bash
-ng build
-```
+- NG_APP_API_BASE → environment.apiBase
+- NG_APP_BACKEND_URL → environment.backendUrl
+- NG_APP_FRONTEND_URL → environment.frontendUrl
+- NG_APP_WS_URL → environment.wsUrl
+- NG_APP_NODE_ENV → environment.nodeEnv
+- NG_APP_NEXT_TELEMETRY_DISABLED → environment.telemetryDisabled
+- NG_APP_ENABLE_SOURCE_MAPS → environment.enableSourceMaps
+- NG_APP_PORT → environment.port
+- NG_APP_TRUST_PROXY → environment.trustProxy
+- NG_APP_LOG_LEVEL → environment.logLevel
+- NG_APP_HEALTHCHECK_PATH → environment.healthcheckPath
+- NG_APP_FEATURE_FLAGS (JSON) → environment.featureFlags (object)
+- NG_APP_EXPERIMENTS_ENABLED → environment.experimentsEnabled
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Place these variables in your container’s .env or CI environment before building. For local dev, you can export them in your terminal session.
 
-## Running unit tests
+## Commands
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- Development:
+  - npm start
+- Build:
+  - npm run build
+- Unit tests:
+  - npm test
+- SSR preview (after building with SSR target):
+  - npm run serve:ssr:angular
 
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Angular CLI docs: https://angular.dev/tools/cli
+- Angular Router: https://angular.dev/guide/router
+- HttpClient: https://angular.dev/guide/http
+
+For a step-by-step migration checklist and detailed React-to-Angular mapping, see MIGRATION_GUIDE.md.
