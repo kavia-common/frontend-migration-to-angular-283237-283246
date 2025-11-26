@@ -1,10 +1,13 @@
 <div class="app-shell">
+  <!-- Skip to content for keyboard users -->
+  <a class="visually-hidden-focusable" href="#main-content">Skip to main content</a>
+
   <app-header></app-header>
   <div class="main">
     <div class="sidebar">
       <app-sidebar></app-sidebar>
     </div>
-    <main class="content" role="main">
+    <main class="content" id="main-content" role="main">
       <router-outlet></router-outlet>
     </main>
   </div>

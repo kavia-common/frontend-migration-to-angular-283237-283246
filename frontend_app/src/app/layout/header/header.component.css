@@ -3,20 +3,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #1976d2;
-  color: #fff;
-  padding: 0.75rem 1rem;
+  background: var(--color-brand);
+  color: var(--color-brand-contrast);
+  padding: var(--space-3) var(--space-4);
 }
+
 .brand {
   display: inline-flex;
-  gap: 0.5rem;
+  gap: var(--space-2);
   align-items: center;
   font-weight: 600;
 }
+
 .logo {
-  font-size: 1.25rem;
+  font-size: var(--text-xl);
 }
+
 .top-nav {
   display: inline-flex;
-  gap: 1rem;
+  gap: var(--space-4);
+}
+
+/* Ensure links in header have visible focus and proper contrast */
+.top-nav a {
+  color: var(--color-brand-contrast);
+}
+.top-nav a:focus-visible {
+  outline-color: var(--color-brand-contrast);
 }

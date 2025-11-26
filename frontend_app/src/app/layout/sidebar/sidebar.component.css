@@ -1,28 +1,59 @@
+/* Base sidebar styles */
 .app-sidebar {
-  padding: 1rem;
-  background: #f6f8fa;
-  border-right: 1px solid #e2e8f0;
-  min-width: 220px;
+  padding: var(--space-4);
+  background: var(--color-bg-muted);
+  border-right: 1px solid var(--color-border);
+  min-width: var(--sidebar-width);
 }
+
+/* Navigation list */
 .app-sidebar ul {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-.app-sidebar a {
-  color: #0d47a1;
-  text-decoration: none;
-}
-.app-sidebar a:hover {
-  text-decoration: underline;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
 }
 
-/* Collapse sidebar on small screens */
-@media (max-width: 768px) {
+/* Links */
+.app-sidebar a {
+  color: var(--color-link);
+  text-decoration: none;
+  display: inline-block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+}
+.app-sidebar a:hover {
+  background: var(--color-surface);
+  text-decoration: none;
+}
+.app-sidebar a:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Mobile-first: full width and bottom border */
+@media (max-width: 767.98px) {
   .app-sidebar {
     min-width: 100%;
     border-right: none;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--color-border);
   }
+}
+
+/* At md+ keep as side rail */
+@media (min-width: 768px) {
+  .app-sidebar {
+    position: sticky;
+    top: 0; /* stays under header if header is fixed later */
+    align-self: start;
+    height: 100%;
+  }
+}
+
+/* Optional class hook for a collapsed state if toggled via class on body or host
+   (no TS changes needed yet; prepared for future) */
+:host-context(.sidebar-collapsed) .app-sidebar {
+  display: none;
 }

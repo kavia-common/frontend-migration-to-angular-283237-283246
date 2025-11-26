@@ -2,30 +2,46 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
+/* Mobile-first: stack sidebar above content by default */
 .main {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 0;
+  display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
   min-height: 0;
+  background: var(--color-surface);
 }
 
+/* Elevate header/footer separation slightly */
+.app-shell > app-header,
+.app-shell > app-footer {
+  box-shadow: var(--shadow-sm);
+}
+
+/* Sidebar wrapper to allow sticky and collapsible behavior */
 .sidebar {
-  background: #f6f8fa;
+  background: var(--color-bg-muted);
+  border-bottom: 1px solid var(--color-border);
 }
 
+/* Content area */
 .content {
-  padding: 1rem;
+  padding: var(--space-4);
   min-width: 0;
 }
 
-/* Responsive: collapse sidebar into full-width row above content */
-@media (max-width: 768px) {
+/* At medium+ screens, switch to grid with fixed sidebar */
+@media (min-width: 768px) {
   .main {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    gap: 0;
+  }
+  .sidebar {
+    border-bottom: none;
+    border-right: 1px solid var(--color-border);
   }
 }

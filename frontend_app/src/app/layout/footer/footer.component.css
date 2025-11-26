@@ -1,9 +1,9 @@
 .app-footer {
   width: 100%;
-  padding: 0.75rem 1rem;
-  background: #f1f5f9;
-  color: #334155;
-  border-top: 1px solid #e2e8f0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-muted);
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
   text-align: center;
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
 }
