@@ -1,8 +1,15 @@
 import { Routes } from '@angular/router';
-import { PlaceholderComponent } from './shared/components/placeholder/placeholder.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-  { path: '', component: PlaceholderComponent, title: 'Home' },
-  { path: 'feature', component: PlaceholderComponent, data: { title: 'Feature' } },
+  // Home landing route with title
+  { path: '', component: HomeComponent, data: { title: 'Home' } },
+  // Lazy-loaded example feature route
+  {
+    path: 'feature',
+    loadComponent: () => import('./features/example/example.page').then(m => m.ExamplePageComponent),
+    data: { title: 'Example Feature' },
+  },
+  // Fallback
   { path: '**', redirectTo: '' },
 ];
