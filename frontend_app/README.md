@@ -10,6 +10,27 @@ This Angular application is the migrated frontend from a previous React implemen
   - npm start
 - Open: http://localhost:3000
 
+## Smoke Test
+
+Use this checklist to quickly verify the app after install or changes:
+
+1. Install and start
+   - npm ci
+   - npm start
+   - Visit http://localhost:3000
+2. Routing and layout
+   - Header and footer are visible
+   - Sidebar links render and navigate to “Home” and “Example Feature”
+   - Document title updates based on route (e.g., “Home • Migrated Angular App”)
+3. API service wiring (no backend required)
+   - Confirm no runtime errors in console when navigating
+4. Build and SSR preview
+   - npm run build
+   - npm run serve:ssr:angular
+   - Visit http://localhost:4000 (default in SSR server.ts) and load “Home” and “Example Feature”
+
+If any NG_APP_* values change, rebuild before validating again.
+
 ## Project Layout
 
 - src/app/app.component.*: Root layout shell with Header, Sidebar, Footer, and router-outlet
@@ -52,7 +73,7 @@ See MIGRATION_GUIDE.md for deeper guidance and examples.
 
 ## Environment Variables (React → Angular)
 
-Angular reads NG_APP_* variables at build time through the environment files. The following variables are supported:
+Angular reads NG_APP_* variables primarily at build time via the environment files, and at runtime on the server when using SSR. The following variables are supported:
 
 - NG_APP_API_BASE → environment.apiBase
 - NG_APP_BACKEND_URL → environment.backendUrl
@@ -68,11 +89,32 @@ Angular reads NG_APP_* variables at build time through the environment files. Th
 - NG_APP_FEATURE_FLAGS (JSON) → environment.featureFlags (object)
 - NG_APP_EXPERIMENTS_ENABLED → environment.experimentsEnabled
 
-Place these variables in your container’s .env or CI environment before building. For local dev, you can export them in your terminal session.
+How to use NG_APP_*:
+
+- Build-time (browser bundle):
+  - Export variables before building or serving:
+    - Example (Linux/macOS):
+      - export NG_APP_API_BASE="http://localhost:3001/api"
+      - export NG_APP_FRONTEND_URL="http://localhost:3000"
+      - npm start
+    - For production builds:
+      - export NG_APP_API_BASE="https://api.example.com"
+      - npm run build
+  - Changing these values requires rebuilding because the browser code is statically bundled.
+
+- Runtime (SSR/Node):
+  - The SSR server reads process.env at runtime via ENVIRONMENT provider.
+  - To run with custom values without rebuilding:
+    - NG_APP_API_BASE="http://localhost:3001/api" node dist/angular/server/server.mjs
+  - This allows toggling flags or endpoints on the server without a rebuild. The browser still uses values baked into the client bundle.
+
+Notes:
+- For CI/CD, set NG_APP_* in the job environment before the build step.
+- For local development, export them in your shell or use a .env loader in the container runtime if applicable.
 
 ## Commands
 
-- Development:
+- Development (serves on port 3000):
   - npm start
 - Build:
   - npm run build
@@ -80,6 +122,16 @@ Place these variables in your container’s .env or CI environment before buildi
   - npm test
 - SSR preview (after building with SSR target):
   - npm run serve:ssr:angular
+
+## SSR Serve Notes
+
+- Build the SSR target with npm run build (configured via angular.json to output to dist/angular).
+- Start the SSR server:
+  - npm run serve:ssr:angular
+- Default SSR port is 4000 (configurable via PORT env var):
+  - PORT=8080 npm run serve:ssr:angular
+- Static assets are served from dist/angular/browser; server rendering entry is dist/angular/server/server.mjs.
+- During SSR, NG_APP_* can be supplied at runtime as environment variables to affect server-side behavior without rebuilding.
 
 ## Additional Resources
 
