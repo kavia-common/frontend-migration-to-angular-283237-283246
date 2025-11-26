@@ -1,3 +1,12 @@
-<div class="container">
-  <h1>{{ title }}</h1>
+<div class="app-shell">
+  <app-header></app-header>
+  <div class="main">
+    <div class="sidebar">
+      <app-sidebar></app-sidebar>
+    </div>
+    <main class="content" role="main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  <app-footer></app-footer>
 </div>

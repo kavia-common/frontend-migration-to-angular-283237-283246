@@ -1,0 +1,28 @@
+.app-sidebar {
+  padding: 1rem;
+  background: #f6f8fa;
+  border-right: 1px solid #e2e8f0;
+  min-width: 220px;
+}
+.app-sidebar ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.app-sidebar a {
+  color: #0d47a1;
+  text-decoration: none;
+}
+.app-sidebar a:hover {
+  text-decoration: underline;
+}
+
+/* Collapse sidebar on small screens */
+@media (max-width: 768px) {
+  .app-sidebar {
+    min-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
+}

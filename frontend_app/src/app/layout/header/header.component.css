@@ -1,0 +1,22 @@
+.app-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1976d2;
+  color: #fff;
+  padding: 0.75rem 1rem;
+}
+.brand {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-weight: 600;
+}
+.logo {
+  font-size: 1.25rem;
+}
+.top-nav {
+  display: inline-flex;
+  gap: 1rem;
+}
