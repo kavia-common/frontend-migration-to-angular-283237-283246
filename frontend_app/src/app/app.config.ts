@@ -4,6 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideEnvironment } from './core/environment.token';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,5 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideHttpClient(),
+    // Provide ENVIRONMENT token (browser uses built files; SSR reads process.env)
+    provideEnvironment(),
   ],
 };

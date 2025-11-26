@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, Optional } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
+import { environment as builtEnvironment } from '../../../environments/environment';
+import { ENVIRONMENT, EnvShape } from '../../core/environment.token';
 
 /**
  * PUBLIC_INTERFACE
@@ -13,14 +14,23 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class ApiService {
-  private readonly apiBase = environment.apiBase || environment.backendUrl || '';
+  private readonly env: EnvShape;
+  private readonly apiBase: string;
 
   private jsonHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
     Accept: 'application/json',
   });
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Optional() @Inject(ENVIRONMENT) injectedEnv?: EnvShape
+  ) {
+    // Prefer injected ENVIRONMENT (will use process.env on SSR),
+    // fallback to built environment as a safety net.
+    this.env = injectedEnv ?? builtEnvironment;
+    this.apiBase = this.env.apiBase || this.env.backendUrl || '';
+  }
 
   /**
    * PUBLIC_INTERFACE
